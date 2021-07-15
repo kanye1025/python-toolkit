@@ -1,4 +1,4 @@
-from utils.os_tool import list_dir_extend
+from ..utils.os_tool import list_dir_extend
 import os
 from PIL import Image
 def resize(src_image_path, dest_image_path,size):

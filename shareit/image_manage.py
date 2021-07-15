@@ -53,30 +53,43 @@ def download_and_resize_img(url, image_path):
     
     
 @retry(3)
-def download_s3(url,file_path):
+def download_s3(url,file_path,is_cover=False):
+    if not is_cover and os.path.exists(file_path):
+        return
     url = url_to_donwload_domain_s3(url)
-    cmd = f'/root/.pyenv/shims/aws s3 cp {url} {file_path}'
+    cmd = f'aws s3 cp {url} {file_path}'
     print(cmd)
     os.system(cmd)
+    
+    
+@retry(3)
+def download_aws_cdn(url,file_path,is_cover=False):
+    url = url_to_donwload_domain_aws_cdn(url)
+    download_file(url,file_path,is_cover=is_cover)
 
-#todo 废弃，不再使用
-'''
-def donwload_to_md5(img_url,cover = False):
-    if not img_url :
-        return None,None
-    img_url = url_to_donwload_domain(img_url)
-    md5 = url_md5(img_url)
+
+
+def donwload_resize_to_md5(img_url,cover = False):
+    img_url = img_url
     _, ext = os.path.splitext(img_url)
-    file_name = md5+ext
-    img_path = image_exists(file_name)
-    if img_path and not cover:
-        return img_path,md5
-    else:
-        img_path = gen_image_path(file_name)
-        download_and_resize_img(img_url,img_path)
-        return img_path,md5
+    md5 = hashlib.md5(img_url.encode('utf-8')).hexdigest()
+    img_url = url_to_donwload_domain_aws_cdn(img_url)
+    file_name = md5 + ext
+    image_path = image_exists(file_name)
+    if not image_path:
+        image_path = gen_image_path(file_name)
+    if cover or not os.path.exists(image_path):
+        try:
+            download_and_resize_img(img_url, image_path)
+        except Exception as e:
+            print(e)
+            print(img_url)
+            return None,None
+    return image_path,md5
+    
+    
         
-'''
+
 
 if '__main__' == __name__:
     download_s3('http://cdn.ushareit.com/sz2/fr/original/210610/v4DaPx/frame_676.jpg','data/test676.jpg')

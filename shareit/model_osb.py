@@ -1,4 +1,4 @@
-from .os_tool import make_sure_dir
+from ..utils.os_tool import make_sure_dir
 import os
 
 

@@ -1,13 +1,13 @@
 import os
 import hashlib
-from utils.os_tool import download_file
-from utils.decorator import retry
+from ..utils.os_tool import download_file
+from ..utils.decorator import retry
 import requests
 import PIL
 from PIL import Image
 from io import  BytesIO
-img_roots = ['/data2/kanye/label_pred_v2/sample_image/all_image','/data2/kanye/label_pred_v2/sample_image/all_image1']
-img_root = '/data2/kanye/label_pred_v2/sample_image/all_image1'
+img_roots = ['/data/sample_image/all_image','/data/sample_image/all_image1']
+img_root = '/data/sample_image/all_image1'
 
 def image_exists(image_file_name):
     for ir in img_roots:

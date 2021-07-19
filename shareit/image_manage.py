@@ -6,8 +6,8 @@ import requests
 import PIL
 from PIL import Image
 from io import  BytesIO
-img_roots = ['/data/sample_image/all_image','/data/sample_image/all_image1']
-img_root = '/data/sample_image/all_image1'
+img_roots = ['/data/sample_image/all_image','/data/sample_image/all_image1','/data/sample_image/all_image2']
+img_root = '/data/sample_image/all_image2'
 
 def image_exists(image_file_name):
     for ir in img_roots:

@@ -88,6 +88,3 @@ def donwload_resize_to_md5(img_url,cover = False):
     return image_path,md5
     
     
-def check_and_remove_image():
-    pass
-

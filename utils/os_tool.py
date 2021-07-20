@@ -40,7 +40,7 @@ def list_dir_extend(dir_path,matching = None):
 	:param matching:匹配子串
 	:return: file_name,file_path
 	'''
-	for file_name in tqdm(os.listdir(dir_path)):
+	for file_name in tqdm(os.listdir(dir_path),desc=dir_path):
 		if not matching:
 			yield file_name,os.path.join(dir_path,file_name)
 		elif type(matching) == str:

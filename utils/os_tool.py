@@ -16,6 +16,10 @@ def make_sure_dir(path):
 	'''
 	if not os.path.exists(path):
 		os.makedirs(path)
+		
+def remove_file(path):
+	if os.path.exists(path):
+		os.remove(path)
 @retry(5)
 def download_file(src_url, dest_file_path, is_cover=False):
 	'''

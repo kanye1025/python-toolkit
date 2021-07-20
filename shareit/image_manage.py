@@ -88,8 +88,6 @@ def donwload_resize_to_md5(img_url,cover = False):
     return image_path,md5
     
     
-        
+def check_and_remove_image():
+    pass
 
-
-if '__main__' == __name__:
-    download_s3('http://cdn.ushareit.com/sz2/fr/original/210610/v4DaPx/frame_676.jpg','data/test676.jpg')

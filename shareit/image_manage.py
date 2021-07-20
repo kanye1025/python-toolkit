@@ -6,8 +6,8 @@ import requests
 import PIL
 from PIL import Image
 from io import  BytesIO
-img_roots = ['/data/sample_image/all_image','/data/sample_image/all_image1']
-img_root = '/data/sample_image/all_image1'
+img_roots = ['/data/sample_image/all_image','/data/sample_image/all_image1','/data/sample_image/all_image2']
+img_root = '/data/sample_image/all_image2'
 
 def image_exists(image_file_name):
     for ir in img_roots:
@@ -88,8 +88,3 @@ def donwload_resize_to_md5(img_url,cover = False):
     return image_path,md5
     
     
-        
-
-
-if '__main__' == __name__:
-    download_s3('http://cdn.ushareit.com/sz2/fr/original/210610/v4DaPx/frame_676.jpg','data/test676.jpg')

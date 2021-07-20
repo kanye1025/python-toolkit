@@ -16,6 +16,10 @@ def make_sure_dir(path):
 	'''
 	if not os.path.exists(path):
 		os.makedirs(path)
+		
+def remove_file(path):
+	if os.path.exists(path):
+		os.remove(path)
 @retry(5)
 def download_file(src_url, dest_file_path, is_cover=False):
 	'''
@@ -40,7 +44,7 @@ def list_dir_extend(dir_path,matching = None):
 	:param matching:匹配子串
 	:return: file_name,file_path
 	'''
-	for file_name in tqdm(os.listdir(dir_path)):
+	for file_name in tqdm(os.listdir(dir_path),desc=dir_path):
 		if not matching:
 			yield file_name,os.path.join(dir_path,file_name)
 		elif type(matching) == str:

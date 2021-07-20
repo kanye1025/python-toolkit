@@ -12,6 +12,7 @@ def resize(src_image_path, dest_image_path,size):
         
         
 def check_and_del_image_dir(image_dir):
+    count = 0
     for _,file_path in list_dir_extend(image_dir):
         try:
             im = Image.open(file_path)
@@ -22,7 +23,9 @@ def check_and_del_image_dir(image_dir):
             print(e)
             print(f'delete image file {file_path}')
             os.remove(file_path)
-            
+            count+=1
+    print(f'remove {count} images')
+
             
 if __name__ == '__main__':
     check_and_del_image_dir('/datassd/kanye/face_rec/images_test_befor_online')

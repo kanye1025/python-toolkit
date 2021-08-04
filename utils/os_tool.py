@@ -37,14 +37,18 @@ def download_file(src_url, dest_file_path, is_cover=False):
 	urlretrieve(src_url, dest_file_path)
 	
 	
-def list_dir_extend(dir_path,matching = None):
+def list_dir_extend(dir_path,matching = None,rate_progress = True):
 	'''
 	
 	:param dir_path:要遍历的目标文件夹
 	:param matching:匹配子串
 	:return: file_name,file_path
 	'''
-	for file_name in tqdm(os.listdir(dir_path),desc=dir_path):
+	ite = os.listdir(dir_path)
+	if rate_progress:
+		ite =tqdm(ite,desc=dir_path)
+	
+	for file_name in ite:
 		if not matching:
 			yield file_name,os.path.join(dir_path,file_name)
 		elif type(matching) == str:

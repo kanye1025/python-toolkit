@@ -26,6 +26,20 @@ def ite_rd_page_by_index(page,col_indexes= None,skip_first_row = False):
 		raise Exception('col_indexes must be Iterable,int,or None')
 	
 
+def get_field_lists_by_index(page,indexs,skip_first_row = False):
+	results = []
+	for row ,field_values in ite_rd_page_by_index(page,indexs,skip_first_row):
+		results.append(field_values)
+		
+	return zip(*results)
+
+def get_field_lists_by_names(page,names):
+	results = []
+	for row, field_values in ite_rd_page_by_names(page, names):
+		results.append(field_values)
+	
+	return zip(*results)
+	
 def ite_rd_page_by_names(page,names):
 	name_index = {}
 	for col in range(page.ncols):

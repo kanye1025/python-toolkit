@@ -89,3 +89,16 @@ def enum_lines(file_path):
 		for line in tqdm(f, desc = 'loading:' + file_path,total=total):
 			yield line
     
+
+def merge_file_by_line(merge_file_paths,dest_file_path):
+	content = set()
+	for merge_file in merge_file_paths:
+		with open(merge_file,'r',encoding='utf-8') as f:
+			for line in f:
+				content.add(line)
+	with open(dest_file_path,'w',encoding='utf-8') as f:
+		for line in content:
+			f.write(line)
+	
+				
+			

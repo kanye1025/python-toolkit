@@ -193,24 +193,22 @@ class DataFile:
     @classmethod
     def _load_tuple_list(cls, path, split=' '):
         ret = []
-        with open(path, 'r', encoding='utf-8') as f:
-            for line in f:
-                try:
-                    if line.strip():
-                        ret.append(line.strip('\n').split(split))
-                except:
-                    print(line)
+        for line in enum_lines(path):
+            try:
+                if line.strip():
+                    ret.append(line.strip('\n').split(split))
+            except:
+                print(line)
         return ret
 
     @classmethod
     def _load_tuple_list_ite(cls, path, split=' '):
-        with open(path, 'r', encoding='utf-8') as f:
-            for line in f:
-                try:
-                    if line.strip():
-                        yield line.strip('\n').split(split)
-                except:
-                    print(line)
+        for line in enum_lines(path):
+            try:
+                if line.strip():
+                    yield line.strip('\n').split(split)
+            except:
+                print(line)
 
         
     @classmethod

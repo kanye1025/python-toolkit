@@ -4,6 +4,7 @@ import os
 import pickle
 from .os_tool import make_sure_dir
 from .os_tool import enum_lines
+from .os_tool import list_dir_extend
 from tqdm import tqdm
 class DataFile:
     @classmethod
@@ -246,3 +247,11 @@ class DataFile:
         make_sure_dir(dir)
         with open(pickle_path, 'wb') as f:
             pickle.dump(obj, f)
+            
+            
+    @classmethod
+    def load_lines_from_dir(cls,dir_path):
+        for file_name,file_path in list_dir_extend(dir_path):
+            for line in DataFile.load_string_list(file_path):
+                yield line
+    

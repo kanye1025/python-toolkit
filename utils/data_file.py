@@ -4,6 +4,8 @@ import os
 import pickle
 from .os_tool import make_sure_dir
 from .os_tool import enum_lines
+from .os_tool import list_dir_extend
+from tqdm import tqdm
 class DataFile:
     @classmethod
     def load_json_dir_to_list(cls,path,limit=None,ite = True):
@@ -142,8 +144,10 @@ class DataFile:
         l = list()
         with open(path, 'r', encoding='utf-8') as f:
             for line in f:
-                l.append(line.strip())
-        return l
+                line = line.strip()
+                if line:
+                    l.append(line.strip())
+        return tqdm(l,desc=path)
 
     @classmethod
     def _load_words_list(cls, path):
@@ -243,3 +247,11 @@ class DataFile:
         make_sure_dir(dir)
         with open(pickle_path, 'wb') as f:
             pickle.dump(obj, f)
+            
+            
+    @classmethod
+    def load_lines_from_dir(cls,dir_path):
+        for file_name,file_path in list_dir_extend(dir_path):
+            for line in DataFile.load_string_list(file_path):
+                yield line
+    

@@ -20,6 +20,8 @@ def make_sure_dir(path):
 def remove_file(path):
 	if os.path.exists(path):
 		os.remove(path)
+		
+_download_first = True
 @retry(5)
 def download_file(src_url, dest_file_path, is_cover=False):
 	'''
@@ -29,22 +31,51 @@ def download_file(src_url, dest_file_path, is_cover=False):
 	:param is_cover:   是否覆盖，默认False
 	:return:
 	'''
-	import socket
-	socket.setdefaulttimeout(60)
-	from urllib.request import urlretrieve
 	if not is_cover and os.path.exists(dest_file_path):
 		return
+	global _download_first
+	if _download_first:
+		import socket
+		import urllib
+		socket.setdefaulttimeout(60)
+		from urllib.request import urlretrieve
+		opener = urllib.request.build_opener()
+		opener.addheaders = [('User-Agent','Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1941.0 Safari/537.36')]
+		urllib.request.install_opener(opener)
+	
 	urlretrieve(src_url, dest_file_path)
 	
 	
-def list_dir_extend(dir_path,matching = None):
+def list_dir_all_files(dir_path,matching = None,rate_progress = True):
+	ite = os.walk(dir_path)
+	if rate_progress:
+		ite = tqdm(ite, desc=dir_path)
+		
+	for root, dirs, files in ite:
+		for file_name in files:
+			if not matching:
+				yield file_name,os.path.join(root, file_name)
+			elif type(matching) == str:
+				if matching in file_name:
+					yield file_name, os.path.join(root, file_name)
+			else:
+				for m in matching:
+					if m in file_name:
+						yield file_name, os.path.join(root, file_name)
+						break
+			
+def list_dir_extend(dir_path,matching = None,rate_progress = True):
 	'''
 	
 	:param dir_path:要遍历的目标文件夹
 	:param matching:匹配子串
 	:return: file_name,file_path
 	'''
-	for file_name in tqdm(os.listdir(dir_path),desc=dir_path):
+	ite = os.listdir(dir_path)
+	if rate_progress:
+		ite =tqdm(ite,desc=dir_path)
+	
+	for file_name in ite:
 		if not matching:
 			yield file_name,os.path.join(dir_path,file_name)
 		elif type(matching) == str:
@@ -85,3 +116,16 @@ def enum_lines(file_path):
 		for line in tqdm(f, desc = 'loading:' + file_path,total=total):
 			yield line
     
+
+def merge_file_by_line(merge_file_paths,dest_file_path):
+	content = set()
+	for merge_file in merge_file_paths:
+		with open(merge_file,'r',encoding='utf-8') as f:
+			for line in f:
+				content.add(line)
+	with open(dest_file_path,'w',encoding='utf-8') as f:
+		for line in content:
+			f.write(line)
+	
+				
+			

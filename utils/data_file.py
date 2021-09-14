@@ -261,3 +261,9 @@ class DataFile:
     def write_obj_to_json_file_line(cls,f,obj):
         l = f'{json.dumps(obj)}\n'
         f.write(l)
+
+    @classmethod
+    def write_list_to_file_line(cls, f, l,split = ','):
+        l = split.join(l)
+        l+='\n'
+        f.write(l)

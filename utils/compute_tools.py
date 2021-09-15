@@ -106,4 +106,9 @@ def batch_process(ite,func,batch_size,pre_filter = None):
                 batch = []
     if batch:
         yield  func(batch)
-        
+
+
+def percent_str_to_float(percent_str):
+    percent_str = percent_str.replace('%', '')
+    f = float(percent_str) / 100.0
+    return f

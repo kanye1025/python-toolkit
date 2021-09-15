@@ -114,7 +114,10 @@ def enum_lines(file_path):
 	total = lines_count(file_path)
 	with open(file_path,'r',encoding='utf-8') as f:
 		for line in tqdm(f, desc = 'loading:' + file_path,total=total):
-			yield line
+			try:
+				yield line
+			except:
+				print(line)
     
 
 def merge_file_by_line(merge_file_paths,dest_file_path):

@@ -6,22 +6,34 @@ import requests
 import PIL
 from PIL import Image
 from io import  BytesIO
-img_roots = ['/data/sample_image/all_image','/data/sample_image/all_image1','/data/sample_image/all_image2']
-img_root = '/data/sample_image/all_image2'
+img_root = '/data/sample_image'
+img_dirs = [f'{img_root}/all_image',f'{img_root}/all_image1',f'{img_root}/all_image2']
+img_dir = f'{img_root}/all_image2'
 
 def image_exists(image_file_name):
-    for ir in img_roots:
+    for ir in img_dirs:
         image_path = os.path.join(ir, image_file_name)
         if  os.path.exists(image_path):
             return image_path
     return None
 
-def gen_image_path(image_file_name):
-    return os.path.join(img_root,image_file_name)
+def gen_image_path(image_file_name,ret_relative = False):
+    img_path = os.path.join(img_dir,image_file_name)
+    if ret_relative:
+        relative_path = img_path.replace(f'{img_root}/','')
+        return img_path,relative_path
+    else:
+        return img_path
 
 
 def url_md5(url):
     return hashlib.md5(url.encode('utf-8')).hexdigest()
+
+def url_md5_ext(url):
+    _,ext = os.path.splitext(url)
+    md5 = url_md5(url)
+    file_name = md5+ext
+    return file_name
 
 
 

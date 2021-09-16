@@ -45,10 +45,10 @@ def ite_rd_page_by_names(page,names):
 	for col in range(page.ncols):
 		name = page.cell(0,col).value
 		name_index[name] = col
-	if isinstance(names, Iterable):
-		indexes = [name_index[name]for name in names]
-	elif isinstance(names, str):
+	if 	isinstance(names, str):
 		indexes = name_index[names]
+	elif isinstance(names, Iterable):
+		indexes = [name_index[name]for name in names]
 	else:
 		raise Exception('names must be Iterable or str')
 	

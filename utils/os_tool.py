@@ -44,8 +44,12 @@ def download_file(src_url, dest_file_path, is_cover=False):
 		urllib.request.install_opener(opener)
 	
 	urlretrieve(src_url, dest_file_path)
-	
-	
+
+def download_original_filename(url,dir_path,is_cover=False):
+	_,file_name = os.path.split(url)
+	dst_path = os.path.join(dir_path,file_name)
+	download_file(url,dst_path,is_cover = is_cover)
+
 def list_dir_all_files(dir_path,matching = None,rate_progress = True):
 	ite = os.walk(dir_path)
 	if rate_progress:
@@ -114,7 +118,10 @@ def enum_lines(file_path):
 	total = lines_count(file_path)
 	with open(file_path,'r',encoding='utf-8') as f:
 		for line in tqdm(f, desc = 'loading:' + file_path,total=total):
-			yield line
+			try:
+				yield line
+			except:
+				print(line)
     
 
 def merge_file_by_line(merge_file_paths,dest_file_path):

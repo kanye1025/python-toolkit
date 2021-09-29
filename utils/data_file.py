@@ -194,24 +194,22 @@ class DataFile:
     @classmethod
     def _load_tuple_list(cls, path, split=' '):
         ret = []
-        with open(path, 'r', encoding='utf-8') as f:
-            for line in f:
-                try:
-                    if line.strip():
-                        ret.append(line.strip('\n').split(split))
-                except:
-                    print(line)
+        for line in enum_lines(path):
+            try:
+                if line.strip():
+                    ret.append(line.strip('\n').split(split))
+            except:
+                print(line)
         return ret
 
     @classmethod
     def _load_tuple_list_ite(cls, path, split=' '):
-        with open(path, 'r', encoding='utf-8') as f:
-            for line in f:
-                try:
-                    if line.strip():
-                        yield line.strip('\n').split(split)
-                except:
-                    print(line)
+        for line in enum_lines(path):
+            try:
+                if line.strip():
+                    yield line.strip('\n').split(split)
+            except:
+                print(line)
 
         
     @classmethod
@@ -255,3 +253,17 @@ class DataFile:
             for line in DataFile.load_string_list(file_path):
                 yield line
     
+    @classmethod
+    def create_file_to_wirte(cls,file_path,encoding='utf-8'):
+        f = open(file_path,'w',encoding=encoding)
+        return f
+    @classmethod
+    def write_obj_to_json_file_line(cls,f,obj):
+        l = f'{json.dumps(obj)}\n'
+        f.write(l)
+
+    @classmethod
+    def write_list_to_file_line(cls, f, l,split = ','):
+        l = split.join(l)
+        l+='\n'
+        f.write(l)

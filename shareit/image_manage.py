@@ -29,6 +29,12 @@ def gen_image_path(image_file_name,ret_relative = False):
 def url_md5(url):
     return hashlib.md5(url.encode('utf-8')).hexdigest()
 
+def url_md5_ext(url):
+    _,ext = os.path.splitext(url)
+    md5 = url_md5(url)
+    file_name = md5+ext
+    return file_name
+
 
 
 def url_to_donwload_domain_aws_cdn(img_url):

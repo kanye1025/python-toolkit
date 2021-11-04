@@ -226,14 +226,16 @@ class DataFile:
             return pickle.load(f)
 
     @classmethod
-    def load_pickles_dir(cls, dir,ext = None):
+    def load_pickles_dir(cls, dir,ext = None,ret_name = False):
         ret = []
         for file_name in os.listdir(dir):
-            if ext:
-                _,ext_ = os.path.splitext(file_name)
-                if ext!= ext_:
-                    continue
-            ret.append(DataFile.load_pickle(os.path.join(dir,file_name)))
+            name, ext_ = os.path.splitext(file_name)
+            if ext and ext!= ext_:
+                continue
+            if ret_name:
+                ret.append((name,DataFile.load_pickle(os.path.join(dir, file_name))))
+            else:
+                ret.append(DataFile.load_pickle(os.path.join(dir,file_name)))
         return ret
     
     
@@ -267,3 +269,9 @@ class DataFile:
         l = split.join(l)
         l+='\n'
         f.write(l)
+        
+        
+    @classmethod
+    def load_json_file(cls,file_path):
+        with open(file_path,'r',encoding='utf-8') as f:
+            return json.load(f)

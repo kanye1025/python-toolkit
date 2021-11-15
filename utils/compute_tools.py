@@ -91,22 +91,38 @@ def count_keys_frequency(keys_iter,is_sort = True,reverse = True):
     else:
         return d.items()
         
-    
-    
-
-def batch_process(ite,func,batch_size,pre_filter = None):
+#for ite
+def batch_process_ret(ite,func,batch_size,pre_filter = None):
     batch = []
     for data in ite:
         if pre_filter:
             data = pre_filter(data)
         if data:
             batch.append(data)
-            if len(batch)>=batch_size:
+            if len(batch) >= batch_size:
                 yield func(batch)
                 batch = []
     if batch:
-        yield  func(batch)
+        yield func(batch)
+        
+def batch_process_no_ret(ite,func,batch_size,pre_filter = None):
+    batch = []
+    for data in ite:
+        if pre_filter:
+            data = pre_filter(data)
+        if data:
+            batch.append(data)
+            if len(batch) >= batch_size:
+                func(batch)
+                batch = []
+    if batch:
+        func(batch)
 
+def batch_process(ite,func,batch_size,pre_filter = None,ret = True):
+    if ret:
+        return batch_process_ret(ite,func,batch_size,pre_filter)
+    else:
+        return batch_process_no_ret(ite,func,batch_size,pre_filter)
 
 def percent_str_to_float(percent_str):
     percent_str = percent_str.replace('%', '')

@@ -6,7 +6,7 @@ import random
 class FiveCropNoResize(torch.nn.Module):
 	direction = ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'center']
 	
-	def __init__(self, crop_rate_min=0.8, crop_rate_max=0.9, p=0.5):
+	def __init__(self, crop_rate_min=0.75, crop_rate_max=0.9, p=0.5):
 		super().__init__()
 		self.crop_rate_min = crop_rate_min
 		self.crop_rate_max = crop_rate_max

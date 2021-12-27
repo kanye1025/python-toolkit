@@ -40,5 +40,14 @@ class FiveCropNoResize(torch.nn.Module):
 				right = img.size[0]
 		
 		box = (int(left), int(top), int(right), int(bottom))
-		print(d, box)
+		#print(d, box)
 		return img.crop(box)
+	
+	
+def pad_to_square( image):
+	size = image.size
+	if size[0] != size[1]:
+		diff = size[0]-size[1]
+		pad = (0,0,0,diff)  if diff>0 else (0,0,-diff,0)
+		image  = F.pad(image, pad, 0, 'constant')
+	return image

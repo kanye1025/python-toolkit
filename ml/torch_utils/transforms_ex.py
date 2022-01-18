@@ -1,7 +1,8 @@
 from PIL import Image
 import torch
 import random
-
+import torchvision.transforms.functional as F
+from PIL import Image,ImageStat
 
 class FiveCropNoResize(torch.nn.Module):
 	direction = ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'center']
@@ -44,10 +45,22 @@ class FiveCropNoResize(torch.nn.Module):
 		return img.crop(box)
 	
 	
-def pad_to_square( image):
+def pad_to_square( image,fill = 0):
+	if fill == 'mean':
+		stat = ImageStat.Stat(image)
+		fill = (int(stat.mean[0]),int(stat.mean[1]),int(stat.mean[2]))
 	size = image.size
 	if size[0] != size[1]:
 		diff = size[0]-size[1]
 		pad = (0,0,0,diff)  if diff>0 else (0,0,-diff,0)
-		image  = F.pad(image, pad, 0, 'constant')
+		image  = F.pad(image, pad, fill, 'constant')
 	return image
+
+
+class PadToSquare():
+	def __init__(self,fill = 0):
+		self.fill = fill
+
+		
+	def __call__(self, image):
+		return pad_to_square(image,self.fill)

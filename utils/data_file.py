@@ -266,7 +266,7 @@ class DataFile:
 
     @classmethod
     def write_list_to_file_line(cls, f, l,split = ','):
-        l = split.join(l)
+        l = split.join([str(i) for i in l])
         l+='\n'
         f.write(l)
         

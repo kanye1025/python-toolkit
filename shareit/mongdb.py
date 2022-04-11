@@ -5,4 +5,4 @@ label_samples_col = MongoClient('127.0.0.1',27017).short_video_label.label_sampl
 
 unsupervised_sample_col = MongoClient('127.0.0.1',27017).short_video_label.unsupervised_sample
 
-porn_sample_col = MongoClient('127.0.0.1',27017).short_video_label.porn_sample
+porn_sample_col = MongoClient('127.0.0.1',27017).porn.porn_sample

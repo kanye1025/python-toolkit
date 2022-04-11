@@ -1,6 +1,7 @@
 from io import BytesIO
 from PIL import Image
 import lmdb
+import os
 from toolkit.utils.url_tool import get_data_from_url
 from toolkit.utils.os_tool import list_dir_extend
 def donwload_image_to_lmdb(lmdb_env,url,key,resize = None,recover = False):
@@ -21,7 +22,7 @@ def donwload_image_to_lmdb(lmdb_env,url,key,resize = None,recover = False):
 	txn.commit()
 	
 	
-def dir_to_lmdb(lmdb_env,file_dir):
+def dir_to_lmdb(lmdb_env,file_dir,remove = False):
 	
 	for file_name,file_path in list_dir_extend(file_dir):
 		with open(file_path, 'br') as f :
@@ -30,5 +31,7 @@ def dir_to_lmdb(lmdb_env,file_dir):
 				txn = lmdb_env.begin(write=True)
 				txn.put(file_name.encode(), buf)
 				txn.commit()
+			if remove:
+				os.remove(file_path)
 			
 		

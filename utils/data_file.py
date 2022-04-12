@@ -4,13 +4,14 @@ import os
 import pickle
 from .os_tool import make_sure_dir
 from .os_tool import enum_lines
-from .os_tool import list_dir_extend
+from .os_tool import list_dir_all_files
 from tqdm import tqdm
 class DataFile:
     @classmethod
     def load_json_dir_to_list(cls,path,limit=None,ite = True):
-        file_names =  os.listdir(path)
-        paths = [os.path.join(path,file_name)for file_name in file_names]
+        
+        paths = [file_path for _,file_path in list_dir_all_files(path)]
+        
         return DataFile.load_json_files_to_list(paths,limit = limit,ite = ite)
 
     @classmethod

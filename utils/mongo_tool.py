@@ -2,7 +2,7 @@ import pymongo
 from tqdm import tqdm
 
 
-def mongo_progress_bar_iterator(collection, query, filter=None, sort = None, limit=None,desc=None,batch_size=5):
+def mongo_progress_bar_iterator(collection, query = {}, filter=None, sort = None, limit=None,desc=None,batch_size=5):
 	if limit:
 		total = limit
 	else:

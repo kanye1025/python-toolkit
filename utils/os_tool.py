@@ -68,7 +68,7 @@ def list_dir_all_files(dir_path,matching = None,rate_progress = True):
 						yield file_name, os.path.join(root, file_name)
 						break
 			
-def list_dir_extend(dir_path,matching = None,rate_progress = True):
+def list_dir_extend(dir_path,matching = None,rate_progress = True,limit=None):
 	'''
 	
 	:param dir_path:要遍历的目标文件夹
@@ -78,19 +78,27 @@ def list_dir_extend(dir_path,matching = None,rate_progress = True):
 	ite = os.listdir(dir_path)
 	if rate_progress:
 		ite =tqdm(ite,desc=dir_path)
-	
+	i = 0
 	for file_name in ite:
 		if not matching:
 			yield file_name,os.path.join(dir_path,file_name)
+			i+=1
+			if limit and i>=limit:
+				break
 		elif type(matching) == str:
 			if matching in file_name:
 				yield file_name, os.path.join(dir_path, file_name)
+				i += 1
+				if limit and i >= limit:
+					break
 		else:
 			for m in matching:
 				if m in file_name:
 					yield file_name, os.path.join(dir_path, file_name)
+					i += 1
 					break
-
+			if limit and i >= limit:
+				break
 def move_files_by_prename(prename, src_path, dest_path,ext_list):
 	'''
 	移动目录下所有文件名前缀为name,后缀在ext_list中的文件

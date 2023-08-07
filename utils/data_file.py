@@ -7,6 +7,8 @@ from .os_tool import enum_lines
 from .os_tool import list_dir_all_files
 from tqdm import tqdm
 class DataFile:
+    
+
     @classmethod
     def load_json_dir_to_list(cls,path,limit=None,ite = True):
         
@@ -262,7 +264,7 @@ class DataFile:
         return f
     @classmethod
     def write_obj_to_json_file_line(cls,f,obj):
-        l = f'{json.dumps(obj)}\n'
+        l = f'{json.dumps(obj,ensure_ascii= False)}\n'
         f.write(l)
 
     @classmethod
@@ -270,9 +272,25 @@ class DataFile:
         l = split.join([str(i) for i in l])
         l+='\n'
         f.write(l)
-        
+
+    @classmethod
+    def write_single_obj_to_json_file_path(cls, file_path, obj):
+        with  cls.create_file_to_wirte(file_path) as f:
+            json.dump(obj,f,ensure_ascii=False)
         
     @classmethod
     def load_json_file(cls,file_path):
         with open(file_path,'r',encoding='utf-8') as f:
             return json.load(f)
+
+    @classmethod
+    def split_train_test_lines(self,file_path,train_path,test_path,test_size):
+        from sklearn.model_selection import train_test_split
+        lines = [line  + '\n' for line in self.load_string_list(file_path)]
+        X_train, X_test = train_test_split(lines, test_size=test_size)
+        with self.create_file_to_wirte(train_path) as f:
+            f.writelines(X_train)
+        
+        with self.create_file_to_wirte(test_path) as f:
+            f.writelines(X_test)
+    

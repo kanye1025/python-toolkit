@@ -2,10 +2,14 @@
 import json
 import os
 import pickle
+
+import pandas as pd
+
 from .os_tool import make_sure_dir
 from .os_tool import enum_lines
 from .os_tool import list_dir_all_files
 from tqdm import tqdm
+import pandas as np
 class DataFile:
     
 
@@ -293,4 +297,9 @@ class DataFile:
         
         with self.create_file_to_wirte(test_path) as f:
             f.writelines(X_test)
-    
+
+    @classmethod
+    def load_dict_from(cls,file_path,key_filed,value_filed):
+        df = pd.read_csv(file_path)
+        return {k:v for k,v in zip(df[key_filed],df[value_filed])}
+

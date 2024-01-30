@@ -1,4 +1,4 @@
-from toolkit.bybon.torndb import Connection
+from toolkit.utils.torndb import Connection
 import datetime
 import pandas as pd
 
